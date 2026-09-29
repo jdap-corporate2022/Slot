@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>K9K Slots Premium - 5 Linhas de Aposta</title>
+  <title>Fortune Tiger Slots</title>
   <style>
     * {
       box-sizing: border-box;
@@ -12,7 +12,7 @@
     }
 
     body {
-      background: radial-gradient(circle at center, #2e1605 0%, #120a03 50%, #050201 100%);
+      background: radial-gradient(circle at center, #800a0a 0%, #4a0303 60%, #1f0101 100%);
       color: #fff;
       font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       display: flex;
@@ -26,126 +26,92 @@
     .machine-wrapper {
       position: relative;
       width: 95%;
-      max-width: 520px;
+      max-width: 440px;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
-    /* Cabeçalho com Logo e Jackpots */
-    .top-header {
+    /* Cabeçalho Temático Oriental (Telhado Pagode + Tigre) */
+    .pagoda-header {
       width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 12px;
-      gap: 10px;
+      background: linear-gradient(180deg, #1f7a3e 0%, #0d421f 100%);
+      border: 3px solid #ffd700;
+      border-radius: 20px 20px 0 0;
+      padding: 15px 10px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     }
 
-    .logo-box {
-      text-align: center;
+    .tiger-avatar {
+      font-size: 55px;
+      line-height: 1;
+      margin-bottom: 4px;
+      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
+    }
+
+    .game-title {
+      font-size: 20px;
       font-weight: 900;
       color: #ffd700;
-      text-shadow: 0 0 10px #ff9900, 0 0 20px #ff5500;
-      font-size: 22px;
-      line-height: 1;
-      letter-spacing: 1px;
-    }
-
-    .logo-box span {
-      display: block;
-      font-size: 10px;
-      color: #fff;
-      letter-spacing: 4px;
-      margin-top: 2px;
-    }
-
-    .jackpot-header {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 6px;
-      flex-grow: 1;
-    }
-
-    .jackpot-card {
-      background: rgba(0, 0, 0, 0.7);
-      border-radius: 6px;
-      padding: 5px 2px;
-      text-align: center;
-      box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.1);
-      border: 1px solid #d4af37;
-    }
-
-    .jackpot-card.grand { border-color: #ff3333; box-shadow: 0 0 8px rgba(255, 51, 51, 0.4); }
-    .jackpot-card.major { border-color: #a833ff; box-shadow: 0 0 8px rgba(168, 51, 255, 0.4); }
-    .jackpot-card.minor { border-color: #3385ff; box-shadow: 0 0 8px rgba(51, 133, 255, 0.4); }
-    .jackpot-card.mini  { border-color: #33ff77; box-shadow: 0 0 8px rgba(51, 255, 119, 0.4); }
-
-    .jackpot-title {
-      font-size: 9px;
-      font-weight: 800;
       text-transform: uppercase;
-    }
-
-    .jackpot-value {
-      font-size: 10px;
-      font-weight: bold;
-      color: #fff;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 4px #000;
     }
 
     /* Moldura Dourada da Caça-Níqueis */
     .gold-frame {
       width: 100%;
-      background: linear-gradient(145deg, #ffe066, #d4af37 30%, #8a6d1c 70%, #ffd700);
-      padding: 10px;
-      border-radius: 20px;
-      box-shadow: 0 0 35px rgba(255, 170, 0, 0.4), inset 0 0 15px rgba(255, 255, 255, 0.6);
+      background: linear-gradient(145deg, #e6b800, #b8860b 40%, #8b6508 100%);
+      padding: 12px;
+      border-radius: 0 0 16px 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
       position: relative;
     }
 
     .inner-screen {
-      background: #000;
-      border-radius: 12px;
-      padding: 10px;
-      border: 3px solid #1a1a1a;
-      box-shadow: inset 0 0 30px rgba(0,0,0,1);
+      background: #f3e5ab; /* Fundo levemente amarelado como no jogo original */
+      border-radius: 10px;
+      padding: 8px;
+      border: 3px solid #8b0000;
+      box-shadow: inset 0 0 15px rgba(0,0,0,0.4);
       position: relative;
     }
 
-    /* Indicador de Linhas de Aposta Fixas (5 LINHAS) */
+    /* Indicador das 5 Linhas nas Colunas Vermelhas Laterais */
     .line-tag {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      background: linear-gradient(180deg, #d4af37, #8a6d1c);
-      color: #000;
-      font-size: 10px;
+      background: linear-gradient(180deg, #b30000, #660000);
+      border: 1px solid #ffd700;
+      color: #ffd700;
+      font-size: 11px;
       font-weight: bold;
-      padding: 10px 4px;
-      border-radius: 4px;
+      padding: 12px 5px;
       text-align: center;
-      line-height: 1.1;
-      box-shadow: 0 0 8px rgba(0,0,0,0.8);
+      line-height: 1.2;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.6);
       z-index: 10;
     }
-    .line-tag.left { left: -14px; border-radius: 6px 0 0 6px; }
-    .line-tag.right { right: -14px; border-radius: 0 6px 6px 0; }
+    .line-tag.left { left: -14px; border-radius: 8px 0 0 8px; }
+    .line-tag.right { right: -14px; border-radius: 0 8px 8px 0; }
 
     /* Matriz 3x3 */
     .reels-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
+      gap: 6px;
     }
 
     .reel-window {
-      height: 280px; /* 3 Células visíveis */
-      background: radial-gradient(circle, #1a1a24 0%, #08080c 100%);
-      border-radius: 8px;
-      border: 1px solid #333;
+      height: 270px; /* Mostra 3 símbolos */
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 6px;
+      border: 1px solid #d4af37;
       overflow: hidden;
       position: relative;
-      box-shadow: inset 0 0 15px rgba(0,0,0,0.9);
     }
 
     .reel-strip {
@@ -155,140 +121,153 @@
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      padding: 4px;
+      gap: 6px;
+      padding: 3px;
       will-change: transform;
     }
 
     .slot-cell {
-      height: 84px;
-      min-height: 84px;
-      background: radial-gradient(circle, #252538 0%, #12121c 100%);
-      border-radius: 8px;
+      height: 82px;
+      min-height: 82px;
+      background: radial-gradient(circle, #ffffff 0%, #f4e8c1 100%);
+      border-radius: 6px;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 46px;
-      box-shadow: inset 0 0 8px rgba(0,0,0,0.8), 0 2px 4px rgba(0,0,0,0.5);
+      font-size: 44px;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.15), 0 2px 4px rgba(0,0,0,0.1);
       user-select: none;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(212, 175, 55, 0.4);
     }
 
     .slot-cell.win-highlight {
       animation: pulseWin 0.5s infinite alternate;
-      border: 2px solid #ffe066;
-      background: radial-gradient(circle, #664d00 0%, #261d00 100%);
+      border: 2px solid #b30000;
+      background: radial-gradient(circle, #fff3a8 0%, #ffcc00 100%);
     }
 
     @keyframes pulseWin {
-      0% { transform: scale(0.96); box-shadow: 0 0 12px #ffcc00; }
-      100% { transform: scale(1.04); box-shadow: 0 0 25px #ffcc00; }
+      0% { transform: scale(0.96); box-shadow: 0 0 10px #ff3333; }
+      100% { transform: scale(1.04); box-shadow: 0 0 20px #ff3333; }
     }
 
-    /* Mensagem de Resultado */
+    /* Faixa do Multiplicador x10 abaixo da roleta */
+    .banner-x10 {
+      margin-top: 8px;
+      background: linear-gradient(90deg, #8b0000, #cc0000, #8b0000);
+      border: 1px solid #ffd700;
+      border-radius: 20px;
+      padding: 6px 10px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: bold;
+      color: #ffd700;
+      text-shadow: 0 1px 2px #000;
+    }
+
+    /* Mensagem de Estado/Vitória */
     .message-bar {
       text-align: center;
-      margin-top: 10px;
-      font-size: 14px;
+      margin-top: 8px;
+      font-size: 13px;
       font-weight: bold;
-      color: #ffcc00;
-      min-height: 20px;
-      text-shadow: 0 0 5px rgba(255, 204, 0, 0.5);
+      color: #8b0000;
+      min-height: 18px;
     }
 
-    /* Painel Inferior de Controles */
+    /* Painel Inferior Vermelho Imperial */
     .control-panel {
       width: 100%;
-      margin-top: 15px;
-      background: linear-gradient(180deg, #181824 0%, #0a0a0f 100%);
-      border: 2px solid #d4af37;
-      border-radius: 40px;
-      padding: 10px 16px;
+      margin-top: 12px;
+      background: linear-gradient(180deg, #a80000 0%, #5e0000 100%);
+      border: 2px solid #ffd700;
+      border-radius: 35px;
+      padding: 10px 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+      gap: 8px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.7);
     }
 
     .panel-group {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
     .stat-card {
-      background: #0d0d14;
-      border: 1px solid #2a2a3a;
-      border-radius: 12px;
-      padding: 6px 12px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid #ffd700;
+      border-radius: 10px;
+      padding: 4px 10px;
       text-align: center;
     }
 
     .stat-label {
-      font-size: 9px;
-      color: #aaaaaa;
+      font-size: 8px;
+      color: #ffb3b3;
       text-transform: uppercase;
       font-weight: bold;
     }
 
     .stat-value {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 900;
-      color: #fff;
+      color: #ffd700;
     }
 
     /* Botões de Aposta (- / +) */
     .btn-circle {
-      background: linear-gradient(180deg, #3a3a50, #1f1f2e);
-      color: #fff;
-      border: 1px solid #555;
-      width: 32px;
-      height: 32px;
+      background: linear-gradient(180deg, #ffd700, #b8860b);
+      color: #5e0000;
+      border: none;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
-      font-weight: bold;
+      font-weight: 900;
       font-size: 18px;
       cursor: pointer;
       display: flex;
       justify-content: center;
       align-items: center;
-      box-shadow: 0 3px 0 #111;
+      box-shadow: 0 3px 0 #330000;
     }
 
     .btn-circle:active {
       transform: translateY(2px);
-      box-shadow: 0 1px 0 #111;
+      box-shadow: 0 1px 0 #330000;
     }
 
-    /* Botão Principal Verde Neon */
+    /* Botão Principal Verde Jade Oriental */
     .btn-spin-glow {
-      background: radial-gradient(circle, #55ff55 0%, #009900 70%, #004d00 100%);
-      border: 3px solid #aaffaa;
-      width: 68px;
-      height: 68px;
+      background: radial-gradient(circle, #2ecc71 0%, #27ae60 70%, #145a32 100%);
+      border: 3px solid #abebc6;
+      width: 64px;
+      height: 64px;
       border-radius: 50%;
       color: #fff;
-      font-size: 32px;
+      font-size: 30px;
       font-weight: bold;
       cursor: pointer;
       display: flex;
       justify-content: center;
       align-items: center;
-      box-shadow: 0 0 20px rgba(0, 255, 0, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 15px rgba(46, 204, 113, 0.6), inset 0 0 8px rgba(255, 255, 255, 0.8);
       transition: transform 0.1s, box-shadow 0.1s;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
     }
 
     .btn-spin-glow:active {
       transform: scale(0.92);
-      box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
+      box-shadow: 0 0 8px rgba(46, 204, 113, 0.4);
     }
 
     .btn-spin-glow:disabled {
-      background: #333;
-      border-color: #555;
+      background: #555;
+      border-color: #777;
       box-shadow: none;
-      color: #777;
+      color: #999;
       cursor: not-allowed;
     }
   </style>
@@ -297,36 +276,16 @@
 
   <div class="machine-wrapper">
     
-    <!-- Topo: Logo & Jackpots -->
-    <div class="top-header">
-      <div class="logo-box">
-        🐯 FORTUNE
-        <span>SLOTS</span>
-      </div>
-      <div class="jackpot-header">
-        <div class="jackpot-card grand">
-          <div class="jackpot-title" style="color: #ff3333;">Grand</div>
-          <div class="jackpot-value">R$ 50.000</div>
-        </div>
-        <div class="jackpot-card major">
-          <div class="jackpot-title" style="color: #a833ff;">Major</div>
-          <div class="jackpot-value">R$ 10.000</div>
-        </div>
-        <div class="jackpot-card minor">
-          <div class="jackpot-title" style="color: #3385ff;">Minor</div>
-          <div class="jackpot-value">R$ 2.000</div>
-        </div>
-        <div class="jackpot-card mini">
-          <div class="jackpot-title" style="color: #33ff77;">Mini</div>
-          <div class="jackpot-value">R$ 500</div>
-        </div>
-      </div>
+    <!-- Topo Estilo Pagode Oriental com o Tigre -->
+    <div class="pagoda-header">
+      <div class="tiger-avatar">🐯</div>
+      <div class="game-title">Fortune Tiger</div>
     </div>
 
     <!-- Moldura Dourada Principal -->
     <div class="gold-frame">
-      <div class="line-tag left">LINHAS<br><b>5</b></div>
-      <div class="line-tag right">LINHAS<br><b>5</b></div>
+      <div class="line-tag left">5<br>L</div>
+      <div class="line-tag right">5<br>L</div>
 
       <div class="inner-screen">
         <!-- Matriz 3x3 -->
@@ -336,16 +295,19 @@
           <div class="reel-window"><div class="reel-strip" id="strip2"></div></div>
         </div>
 
-        <!-- Mensagem -->
+        <!-- Banner Multiplicador x10 -->
+        <div class="banner-x10">Multiplicador x10 com cilindros cheios</div>
+
+        <!-- Mensagens de Resultado -->
         <div class="message-bar" id="message">Pressione GIRAR para jogar!</div>
       </div>
     </div>
 
-    <!-- Painel de Controle (Rodapé) -->
+    <!-- Painel de Controle Inferior -->
     <div class="control-panel">
       <!-- Saldo -->
       <div class="stat-card">
-        <div class="stat-label">Saldo</div>
+        <div class="stat-label">Carteira</div>
         <div class="stat-value" id="balanceDisplay">R$ 1.250,00</div>
       </div>
 
@@ -354,42 +316,42 @@
         <button class="btn-circle" onclick="changeBet(-1)">-</button>
         <div class="stat-card">
           <div class="stat-label">Aposta</div>
-          <div class="stat-value" id="betDisplay">R$ 5,00</div>
+          <div class="stat-value" id="betDisplay">R$ 0,40</div>
         </div>
         <button class="btn-circle" onclick="changeBet(1)">+</button>
       </div>
 
-      <!-- Botão Spin Verde Neon -->
+      <!-- Botão Spin Verde Jade -->
       <button class="btn-spin-glow" id="spinBtn" onclick="spin()">↻</button>
     </div>
 
   </div>
 
   <script>
-    // Tabela de Pagamentos atualizada com base na imagem do jogo (Tigre da Sorte)
+    // Tabela de Pagamentos oficial Fortune Tiger
     const SYMBOLS = [
       { char: '🍊', name: 'Laranja', pay: 3 },
       { char: '🧨', name: 'Dinamite', pay: 5 },
       { char: '🧧', name: 'Envelope Red', pay: 8 },
       { char: '💰', name: 'Saco de Moedas', pay: 10 },
-      { char: '🐉', name: 'Aulete/Talismã', pay: 25 },
+      { char: '🐉', name: 'Talismã Verde', pay: 25 },
       { char: '🪙', name: 'Lingote de Ouro', pay: 100 },
       { char: '🐯', name: 'WILD (Tigre)', pay: 250 }
     ];
 
     let balance = 1250.00;
-    let bet = 5.00;
-    const betSteps = [1, 2, 5, 10, 20, 50];
-    let betIndex = 2;
+    let bet = 0.40;
+    const betSteps = [0.40, 0.80, 1.20, 2.00, 4.00, 10.00, 20.00, 50.00];
+    let betIndex = 0;
     let isSpinning = false;
 
     /* 
       ======================================================
       CONFIGURAÇÃO DAS 5 LINHAS DE GANHO FIXAS (3x3):
       ======================================================
-      1ª Linha: Horizontal do Meio ➡️ (Linha 1)
-      2ª Linha: Horizontal de Cima ➡️ (Linha 0)
-      3ª Linha: Horizontal de Baixo ➡️ (Linha 2)
+      1ª Linha: Horizontal do Meio ➡️
+      2ª Linha: Horizontal de Cima ➡️
+      3ª Linha: Horizontal de Baixo ➡️
       4ª Linha: Diagonal Descendente ↘️
       5ª Linha: Diagonal Ascendente ↗️
     */
@@ -476,7 +438,7 @@
         strip.style.transition = 'none';
         strip.style.transform = `translateY(-1980px)`;
 
-        strip.offsetHeight; // Força renderização
+        strip.offsetHeight; // Força re-renderização
 
         const duration = 2.0 + (col * 0.35);
         strip.style.transition = `transform ${duration}s cubic-bezier(0.15, 0.85, 0.25, 1)`;
@@ -507,7 +469,7 @@
         const s1 = matrix[c1][r1];
         const s2 = matrix[c2][r2];
 
-        // Regra do Wild
+        // Lógica do Wild
         let mainSymbol = s0;
         if (mainSymbol.char === '🐯') mainSymbol = s1;
         if (mainSymbol.char === '🐯') mainSymbol = s2;
@@ -530,7 +492,7 @@
         }
       });
 
-      // Regra de Multiplicador x10: Quando TODOS os 9 espaços da tela estiverem em ganhos
+      // Multiplicador x10 se todos os 9 slots tiverem símbolos combinados
       let isFullBoardWin = (winningCellsSet.size === 9);
       if (isFullBoardWin) {
         totalWin = totalWin * 10;
@@ -539,9 +501,9 @@
       if (totalWin > 0) {
         balance += totalWin;
         if (isFullBoardWin) {
-          document.getElementById('message').textContent = `🔥 TELA CHEIA! MULTIPLICADOR x10! GANHOU R$ ${totalWin.toFixed(2)}! 🔥`;
+          document.getElementById('message').textContent = `🔥 MULTIPLICADOR x10! GANHOU R$ ${totalWin.toFixed(2)}! 🔥`;
         } else {
-          document.getElementById('message').textContent = `GANHOU R$ ${totalWin.toFixed(2)}! (${winningLinesCount} linha(s) premiada(s))`;
+          document.getElementById('message').textContent = `GANHOU R$ ${totalWin.toFixed(2)}! (${winningLinesCount} linha(s))`;
         }
       } else {
         document.getElementById('message').textContent = "Sem combinações. Tente novamente!";
