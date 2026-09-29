@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>K9K Slots Premium</title>
+  <title>K9K Slots Premium - Smooth Roll</title>
   <style>
     * {
       box-sizing: border-box;
@@ -78,21 +78,33 @@
       border: 2px solid #333;
       box-shadow: inset 0 0 25px rgba(0,0,0,0.9);
       margin-bottom: 15px;
+      position: relative;
     }
 
-    .reel-column {
+    .reel-window {
+      height: 290px; /* 3 símbolos de 90px + lacunas */
+      background: #11111a;
+      border-radius: 8px;
+      border: 1px solid #222;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .reel-strip {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
       display: flex;
       flex-direction: column;
       gap: 10px;
-      background: #11111a;
-      border-radius: 8px;
       padding: 5px;
-      border: 1px solid #222;
-      overflow: hidden;
+      will-change: transform;
     }
 
     .slot-cell {
-      height: 90px;
+      height: 80px;
+      min-height: 80px;
       background: radial-gradient(circle, #222233 0%, #11111a 100%);
       border-radius: 6px;
       display: flex;
@@ -101,12 +113,12 @@
       font-size: 42px;
       box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
       user-select: none;
-      transition: transform 0.05s ease-in-out;
     }
 
     .slot-cell.win-highlight {
       animation: pulseWin 0.6s infinite alternate;
       border: 2px solid #ffcc00;
+      background: radial-gradient(circle, #443311 0%, #221100 100%);
     }
 
     @keyframes pulseWin {
@@ -114,7 +126,7 @@
       100% { transform: scale(1.05); box-shadow: 0 0 25px #ffcc00; }
     }
 
-    /* Painel de Controlo */
+    /* Painel de Controle */
     .control-panel {
       display: flex;
       justify-content: space-between;
@@ -221,39 +233,19 @@
       </div>
     </div>
 
-    <!-- Matriz 5x3 -->
+    <!-- Matriz 5x3 com Rolagem Vertical -->
     <div class="reels-grid">
-      <div class="reel-column" id="col0">
-        <div class="slot-cell">🍒</div>
-        <div class="slot-cell">🍋</div>
-        <div class="slot-cell">🍇</div>
-      </div>
-      <div class="reel-column" id="col1">
-        <div class="slot-cell">🔔</div>
-        <div class="slot-cell">💎</div>
-        <div class="slot-cell">7️⃣</div>
-      </div>
-      <div class="reel-column" id="col2">
-        <div class="slot-cell">7️⃣</div>
-        <div class="slot-cell">👑</div>
-        <div class="slot-cell">🔔</div>
-      </div>
-      <div class="reel-column" id="col3">
-        <div class="slot-cell">💎</div>
-        <div class="slot-cell">🍒</div>
-        <div class="slot-cell">🏷️</div>
-      </div>
-      <div class="reel-column" id="col4">
-        <div class="slot-cell">🍊</div>
-        <div class="slot-cell">7️⃣</div>
-        <div class="slot-cell">🍉</div>
-      </div>
+      <div class="reel-window"><div class="reel-strip" id="strip0"></div></div>
+      <div class="reel-window"><div class="reel-strip" id="strip1"></div></div>
+      <div class="reel-window"><div class="reel-strip" id="strip2"></div></div>
+      <div class="reel-window"><div class="reel-strip" id="strip3"></div></div>
+      <div class="reel-window"><div class="reel-strip" id="strip4"></div></div>
     </div>
 
-    <!-- Mensagem de Vitória/Status -->
-    <div class="message-bar" id="message">Clique no botão para girar!</div>
+    <!-- Mensagem -->
+    <div class="message-bar" id="message">Clique em Girar para jogar!</div>
 
-    <!-- Controlo Inferior -->
+    <!-- Painel -->
     <div class="control-panel">
       <div class="stat-box">
         <div class="stat-label">Saldo</div>
@@ -274,7 +266,6 @@
   </div>
 
   <script>
-    // Lista de símbolos disponíveis com os seus respetivos multiplicadores
     const SYMBOLS = [
       { char: '🍒', name: 'Cereja', pay: 2 },
       { char: '🍋', name: 'Limão', pay: 2 },
@@ -285,21 +276,44 @@
       { char: '🏷️', name: 'BAR', pay: 8 },
       { char: '💎', name: 'Diamante', pay: 10 },
       { char: '7️⃣', name: 'Sete', pay: 15 },
-      { char: '👑', name: 'WILD', pay: 25 } // Substitui qualquer símbolo
+      { char: '👑', name: 'WILD', pay: 25 }
     ];
 
     let balance = 1250.00;
     let bet = 5.00;
     const betSteps = [1, 2, 5, 10, 20, 50];
-    let betIndex = 2; // R$ 5,00 por defeito
+    let betIndex = 2;
     let isSpinning = false;
 
-    // Linhas de pagamento ativas (3 linhas horizontais simples)
+    // As 3 Linhas pedidas:
+    // Linha 1: ➡️ (Do meio)
+    // Linha 2: ↘️ (Diagonal topo -> base)
+    // Linha 3: ↗️ (Diagonal base -> topo)
     const paylines = [
-      [0, 0, 0, 0, 0], // Linha Superior (Row 0)
-      [1, 1, 1, 1, 1], // Linha Central (Row 1)
-      [2, 2, 2, 2, 2]  // Linha Inferior (Row 2)
+      { name: "Linha do Meio ➡️", coords: [[0,1], [1,1], [2,1], [3,1], [4,1]] },
+      { name: "Diagonal Descendente ↘️", coords: [[0,0], [1,1], [2,2], [3,2], [4,2]] },
+      { name: "Diagonal Ascendente ↗️", coords: [[0,2], [1,1], [2,0], [3,0], [4,0]] }
     ];
+
+    function getRandomSymbol() {
+      return SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
+    }
+
+    // Inicializa a roleta com uma fita bem longa de símbolos para rolagem
+    function initReels() {
+      for (let col = 0; col < 5; col++) {
+        const strip = document.getElementById(`strip${col}`);
+        strip.innerHTML = '';
+        // Geramos 20 símbolos em cada fita para permitir o efeito de descida rápida
+        for (let i = 0; i < 20; i++) {
+          const cell = document.createElement('div');
+          cell.className = 'slot-cell';
+          cell.textContent = getRandomSymbol().char;
+          strip.appendChild(cell);
+        }
+        strip.style.transform = 'translateY(0px)';
+      }
+    }
 
     function updateDisplay() {
       document.getElementById('balanceDisplay').textContent = `R$ ${balance.toFixed(2)}`;
@@ -315,10 +329,6 @@
       updateDisplay();
     }
 
-    function getRandomSymbol() {
-      return SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
-    }
-
     function clearHighlights() {
       document.querySelectorAll('.slot-cell').forEach(cell => {
         cell.classList.remove('win-highlight');
@@ -328,7 +338,7 @@
     function spin() {
       if (isSpinning) return;
       if (balance < bet) {
-        document.getElementById('message').textContent = "Saldo insuficiente para esta aposta!";
+        document.getElementById('message').textContent = "Saldo insuficiente!";
         return;
       }
 
@@ -337,45 +347,51 @@
       updateDisplay();
       isSpinning = true;
       document.getElementById('spinBtn').disabled = true;
-      document.getElementById('message').textContent = "A girar...";
+      document.getElementById('message').textContent = "Girando...";
 
-      const matrix = [[], [], [], [], []]; // Guardará o resultado das 5 colunas x 3 linhas
-      let completedReels = 0;
+      const finalMatrix = [[], [], [], [], []];
+      let finishedCols = 0;
 
-      // Animação para cada uma das 5 colunas
       for (let col = 0; col < 5; col++) {
-        let ticks = 0;
-        const maxTicks = 15 + (col * 5); // Cada coluna para sucessivamente mais tarde
+        const strip = document.getElementById(`strip${col}`);
+        
+        // Símbolos finais para esta coluna
+        const res0 = getRandomSymbol();
+        const res1 = getRandomSymbol();
+        const res2 = getRandomSymbol();
+        finalMatrix[col] = [res0, res1, res2];
 
-        const interval = setInterval(() => {
-          const colEl = document.getElementById(`col${col}`);
-          const cells = colEl.querySelectorAll('.slot-cell');
-          
-          cells[0].textContent = getRandomSymbol().char;
-          cells[1].textContent = getRandomSymbol().char;
-          cells[2].textContent = getRandomSymbol().char;
+        // Atualiza o TOPO da fita com os resultados finais
+        const cells = strip.querySelectorAll('.slot-cell');
+        cells[0].textContent = res0.char;
+        cells[1].textContent = res1.char;
+        cells[2].textContent = res2.char;
 
-          ticks++;
-          if (ticks >= maxTicks) {
-            clearInterval(interval);
-            
-            // Define o resultado final fixo para a coluna
-            const finalCol = [getRandomSymbol(), getRandomSymbol(), getRandomSymbol()];
-            matrix[col] = finalCol;
+        // Preenche o restante com símbolos aleatórios para o efeito visual de descida
+        for(let k = 3; k < cells.length; k++) {
+          cells[k].textContent = getRandomSymbol().char;
+        }
 
-            const cells = colEl.querySelectorAll('.slot-cell');
-            cells[0].textContent = finalCol[0].char;
-            cells[1].textContent = finalCol[1].char;
-            cells[2].textContent = finalCol[2].char;
+        // Posiciona a fita no final (embaixo) sem transição
+        strip.style.transition = 'none';
+        strip.style.transform = `translateY(-1530px)`; // (17 células * 90px)
 
-            completedReels++;
-            if (completedReels === 5) {
-              checkWinnings(matrix);
-              isSpinning = false;
-              document.getElementById('spinBtn').disabled = false;
-            }
+        // Força renderização do navegador
+        strip.offsetHeight;
+
+        // Aplica a animação de deslizar suavemente para CIMA -> BAIXO (posição 0)
+        const duration = 1.2 + (col * 0.3); // Delay em cascata para cada coluna
+        strip.style.transition = `transform ${duration}s cubic-bezier(0.1, 0.9, 0.2, 1.0)`;
+        strip.style.transform = 'translateY(0px)';
+
+        setTimeout(() => {
+          finishedCols++;
+          if (finishedCols === 5) {
+            checkWinnings(finalMatrix);
+            isSpinning = false;
+            document.getElementById('spinBtn').disabled = false;
           }
-        }, 60);
+        }, duration * 1000);
       }
     }
 
@@ -383,16 +399,16 @@
       let totalWin = 0;
       let winMessages = [];
 
-      // Avalia cada uma das 3 linhas de pagamento
-      paylines.forEach((line, lineIndex) => {
-        const firstSymbol = matrix[0][line[0]];
+      paylines.forEach((line) => {
+        const firstCoord = line.coords[0];
+        const firstSymbol = matrix[firstCoord[0]][firstCoord[1]];
         let matchCount = 1;
         let mainSymbol = firstSymbol;
 
-        for (let col = 1; col < 5; col++) {
-          const currentSymbol = matrix[col][line[col]];
+        for (let i = 1; i < line.coords.length; i++) {
+          const coord = line.coords[i];
+          const currentSymbol = matrix[coord[0]][coord[1]];
 
-          // Lógica com o Símbolo WILD (👑)
           if (mainSymbol.char === '👑' && currentSymbol.char !== '👑') {
             mainSymbol = currentSymbol;
           }
@@ -400,37 +416,37 @@
           if (currentSymbol.char === mainSymbol.char || currentSymbol.char === '👑') {
             matchCount++;
           } else {
-            break; // A linha de pagamento quebra se não houver sequência da esquerda para a direita
+            break;
           }
         }
 
-        // Se houver 3 ou mais símbolos iguais seguidos da esquerda para a direita
         if (matchCount >= 3) {
           const winAmount = (bet / 3) * (mainSymbol.pay * (matchCount - 2));
           totalWin += winAmount;
 
-          // Destaca as células vencedoras
-          for (let col = 0; col < matchCount; col++) {
-            const rowIndex = line[col];
-            const cell = document.getElementById(`col${col}`).querySelectorAll('.slot-cell')[rowIndex];
+          // Destaca as células vencedoras da linha
+          for (let i = 0; i < matchCount; i++) {
+            const [c, r] = line.coords[i];
+            const strip = document.getElementById(`strip${c}`);
+            const cell = strip.querySelectorAll('.slot-cell')[r];
             cell.classList.add('win-highlight');
           }
 
-          winMessages.push(`${matchCount}x ${mainSymbol.name}`);
+          winMessages.push(`${line.name}`);
         }
       });
 
       if (totalWin > 0) {
         balance += totalWin;
-        document.getElementById('message').textContent = `GANHOU R$ ${totalWin.toFixed(2)}! (${winMessages.join(', ')})`;
+        document.getElementById('message').textContent = `GANHOU R$ ${totalWin.toFixed(2)}! [${winMessages.join(' | ')}]`;
       } else {
-        document.getElementById('message').textContent = "Sem combinações desta vez. Tente novamente!";
+        document.getElementById('message').textContent = "Sem combinações nas 3 linhas. Tente de novo!";
       }
 
       updateDisplay();
     }
 
-    // Inicializar ecrã
+    initReels();
     updateDisplay();
   </script>
 </body>
