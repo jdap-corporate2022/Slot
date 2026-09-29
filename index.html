@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jogo de Slots</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1e1e2f, #121212);
+      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .slot-machine {
+      background: #2a2a40;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.05);
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+      border: 3px solid #ffcc00;
+    }
+
+    h1 {
+      color: #ffcc00;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 28px;
+    }
+
+    .reels-container {
+      display: flex;
+      justify-content: space-between;
+      background: #111;
+      padding: 15px;
+      border-radius: 12px;
+      border: 2px solid #444;
+      margin-bottom: 20px;
+    }
+
+    .reel {
+      width: 30%;
+      height: 100px;
+      background: #fff;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 48px;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+      user-select: none;
+      transition: transform 0.1s ease-in-out;
+    }
+
+    .info-panel {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .balance {
+      color: #4caf50;
+    }
+
+    .message {
+      height: 24px;
+      margin-bottom: 20px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #ffcc00;
+    }
+
+    .btn-spin {
+      background: #ffcc00;
+      color: #111;
+      border: none;
+      padding: 15px 30px;
+      font-size: 20px;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+      width: 100%;
+      text-transform: uppercase;
+      box-shadow: 0 5px 0 #ccaa00;
+      transition: all 0.1s ease;
+    }
+
+    .btn-spin:active {
+      transform: translateY(4px);
+      box-shadow: 0 1px 0 #ccaa00;
+    }
+
+    .btn-spin:disabled {
+      background: #666;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="slot-machine">
+    <h1>Slot Machine</h1>
+
+    <div class="info-panel">
+      <span>Saldo: $<span id="balance">100</span></span>
+      <span>Custo: $10</span>
+    </div>
+
+    <div class="reels-container">
+      <div class="reel" id="reel1">🍒</div>
+      <div class="reel" id="reel2">🍋</div>
+      <div class="reel" id="reel3">🍇</div>
+    </div>
+
+    <div class="message" id="message">Clique em GIRAR para jogar!</div>
+
+    <button class="btn-spin" id="spinBtn" onclick="spin()">Girar</button>
+  </div>
+
+  <script>
+    const symbols = ['🍒', '🍋', '🍇', '🔔', '💎', '7️⃣'];
+    let balance = 100;
+    const costPerSpin = 10;
+
+    const reel1 = document.getElementById('reel1');
+    const reel2 = document.getElementById('reel2');
+    const reel3 = document.getElementById('reel3');
+    const balanceEl = document.getElementById('balance');
+    const messageEl = document.getElementById('message');
+    const spinBtn = document.getElementById('spinBtn');
+
+    function getRandomSymbol() {
+      return symbols[Math.floor(Math.random() * symbols.length)];
+    }
+
+    function spin() {
+      if (balance < costPerSpin) {
+        messageEl.textContent = "Saldo insuficiente!";
+        messageEl.style.color = "#ff4d4d";
+        return;
+      }
+
+      // Deduz o custo
+      balance -= costPerSpin;
+      balanceEl.textContent = balance;
+      messageEl.textContent = "Girando...";
+      messageEl.style.color = "#ffcc00";
+      spinBtn.disabled = true;
+
+      let counter = 0;
+      const duration = 20; // Número de giros da animação
+
+      // Efeito de animação rolando
+      const interval = setInterval(() => {
+        reel1.textContent = getRandomSymbol();
+        reel2.textContent = getRandomSymbol();
+        reel3.textContent = getRandomSymbol();
+        counter++;
+
+        if (counter >= duration) {
+          clearInterval(interval);
+          checkWin();
+          spinBtn.disabled = false;
+        }
+      }, 80);
+    }
+
+    function checkWin() {
+      const res1 = reel1.textContent;
+      const res2 = reel2.textContent;
+      const res3 = reel3.textContent;
+
+      if (res1 === res2 && res2 === res3) {
+        // 3 símbolos iguais -> Grande vitória
+        let prize = 50;
+        if (res1 === '7️⃣') prize = 200; // Bônus especial para o 7
+        if (res1 === '💎') prize = 100;
+
+        balance += prize;
+        messageEl.textContent = `JACKPOT! Você ganhou $${prize}! 🎉`;
+        messageEl.style.color = "#4caf50";
+      } else if (res1 === res2 || res1 === res3 || res2 === res3) {
+        // 2 símbolos iguais -> Par
+        const prize = 15;
+        balance += prize;
+        messageEl.textContent = `Par combinado! Ganhou $${prize}! ✨`;
+        messageEl.style.color = "#2196f3";
+      } else {
+        // Perdeu
+        messageEl.textContent = "Não foi desta vez. Tente novamente!";
+        messageEl.style.color = "#ff4d4d";
+      }
+
+      balanceEl.textContent = balance;
+    }
+  </script>
+</body>
+</html>
