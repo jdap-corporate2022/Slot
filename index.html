@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jogo de Slots 3x3</title>
+  <title>K9K Slots 3x3 Premium</title>
   <style>
     * {
       box-sizing: border-box;
@@ -12,7 +12,7 @@
     }
 
     body {
-      background: #0a0a0f linear-gradient(135deg, #0d0d1a 0%, #050508 100%);
+      background: radial-gradient(circle at center, #2e1605 0%, #120a03 50%, #050201 100%);
       color: #fff;
       font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       display: flex;
@@ -22,37 +22,130 @@
       overflow: hidden;
     }
 
-    .slot-container {
-      background: #14141f;
-      border: 3px solid #d4af37;
-      border-radius: 20px;
-      padding: 25px;
+    /* Container Principal */
+    .machine-wrapper {
+      position: relative;
       width: 95%;
-      max-width: 450px;
-      box-shadow: 0 0 50px rgba(212, 175, 55, 0.2), inset 0 0 20px rgba(0,0,0,0.8);
-      text-align: center;
+      max-width: 520px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    /* Grelha 3x3 com Rolagem Vertical */
+    /* Cabeçalho com Logo e Jackpots */
+    .top-header {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      gap: 10px;
+    }
+
+    .logo-box {
+      text-align: center;
+      font-weight: 900;
+      color: #ffd700;
+      text-shadow: 0 0 10px #ff9900, 0 0 20px #ff5500;
+      font-size: 22px;
+      line-height: 1;
+      letter-spacing: 1px;
+    }
+
+    .logo-box span {
+      display: block;
+      font-size: 10px;
+      color: #fff;
+      letter-spacing: 4px;
+      margin-top: 2px;
+    }
+
+    .jackpot-header {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      flex-grow: 1;
+    }
+
+    .jackpot-card {
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 6px;
+      padding: 5px 2px;
+      text-align: center;
+      box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.1);
+      border: 1px solid #d4af37;
+    }
+
+    .jackpot-card.grand { border-color: #ff3333; box-shadow: 0 0 8px rgba(255, 51, 51, 0.4); }
+    .jackpot-card.major { border-color: #a833ff; box-shadow: 0 0 8px rgba(168, 51, 255, 0.4); }
+    .jackpot-card.minor { border-color: #3385ff; box-shadow: 0 0 8px rgba(51, 133, 255, 0.4); }
+    .jackpot-card.mini  { border-color: #33ff77; box-shadow: 0 0 8px rgba(51, 255, 119, 0.4); }
+
+    .jackpot-title {
+      font-size: 9px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .jackpot-value {
+      font-size: 10px;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    /* Moldura Dourada da Caça-Níqueis */
+    .gold-frame {
+      width: 100%;
+      background: linear-gradient(145deg, #ffe066, #d4af37 30%, #8a6d1c 70%, #ffd700);
+      padding: 10px;
+      border-radius: 20px;
+      box-shadow: 0 0 35px rgba(255, 170, 0, 0.4), inset 0 0 15px rgba(255, 255, 255, 0.6);
+      position: relative;
+    }
+
+    .inner-screen {
+      background: #000;
+      border-radius: 12px;
+      padding: 10px;
+      border: 3px solid #1a1a1a;
+      box-shadow: inset 0 0 30px rgba(0,0,0,1);
+      position: relative;
+    }
+
+    /* Indicador de Linhas na Moldura Lateral */
+    .line-tag {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: linear-gradient(180deg, #d4af37, #8a6d1c);
+      color: #000;
+      font-size: 10px;
+      font-weight: bold;
+      padding: 10px 4px;
+      border-radius: 4px;
+      text-align: center;
+      line-height: 1.1;
+      box-shadow: 0 0 8px rgba(0,0,0,0.8);
+      z-index: 10;
+    }
+    .line-tag.left { left: -14px; border-radius: 6px 0 0 6px; }
+    .line-tag.right { right: -14px; border-radius: 0 6px 6px 0; }
+
+    /* Matriz 3x3 */
     .reels-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      background: #000;
-      padding: 15px;
-      border-radius: 12px;
-      border: 2px solid #333;
-      box-shadow: inset 0 0 25px rgba(0,0,0,0.9);
-      margin-bottom: 20px;
+      gap: 8px;
     }
 
     .reel-window {
-      height: 280px; /* Exibe exatamente 3 células */
-      background: #11111a;
+      height: 280px; /* Mostra 3 células */
+      background: radial-gradient(circle, #1a1a24 0%, #08080c 100%);
       border-radius: 8px;
-      border: 1px solid #222;
+      border: 1px solid #333;
       overflow: hidden;
       position: relative;
+      box-shadow: inset 0 0 15px rgba(0,0,0,0.9);
     }
 
     .reel-strip {
@@ -62,148 +155,214 @@
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      padding: 5px;
+      gap: 8px;
+      padding: 4px;
       will-change: transform;
     }
 
     .slot-cell {
-      height: 80px;
-      min-height: 80px;
-      background: radial-gradient(circle, #222233 0%, #11111a 100%);
-      border-radius: 6px;
+      height: 84px;
+      min-height: 84px;
+      background: radial-gradient(circle, #252538 0%, #12121c 100%);
+      border-radius: 8px;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 42px;
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+      font-size: 46px;
+      box-shadow: inset 0 0 8px rgba(0,0,0,0.8), 0 2px 4px rgba(0,0,0,0.5);
       user-select: none;
+      border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .slot-cell.win-highlight {
-      animation: pulseWin 0.6s infinite alternate;
-      border: 2px solid #ffcc00;
-      background: radial-gradient(circle, #443311 0%, #221100 100%);
+      animation: pulseWin 0.5s infinite alternate;
+      border: 2px solid #ffe066;
+      background: radial-gradient(circle, #664d00 0%, #261d00 100%);
     }
 
     @keyframes pulseWin {
-      0% { transform: scale(0.95); box-shadow: 0 0 10px #ffcc00; }
-      100% { transform: scale(1.05); box-shadow: 0 0 25px #ffcc00; }
+      0% { transform: scale(0.96); box-shadow: 0 0 12px #ffcc00; }
+      100% { transform: scale(1.04); box-shadow: 0 0 25px #ffcc00; }
     }
 
-    /* Painel de Controle */
-    .control-panel {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #0a0a12;
-      padding: 12px 20px;
-      border-radius: 12px;
-      border: 1px solid #2a2a3a;
-      gap: 15px;
-    }
-
-    .stat-box {
-      text-align: left;
-    }
-
-    .stat-label {
-      font-size: 11px;
-      color: #888;
-      text-transform: uppercase;
-    }
-
-    .stat-value {
-      font-size: 18px;
+    /* Mensagem no topo da tela */
+    .message-bar {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
       font-weight: bold;
-      color: #fff;
+      color: #ffcc00;
+      min-height: 20px;
+      text-shadow: 0 0 5px rgba(255, 204, 0, 0.5);
     }
 
-    .bet-controls {
+    /* Painel Inferior de Controles */
+    .control-panel {
+      width: 100%;
+      margin-top: 15px;
+      background: linear-gradient(180deg, #181824 0%, #0a0a0f 100%);
+      border: 2px solid #d4af37;
+      border-radius: 40px;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+    }
+
+    .panel-group {
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    .btn-bet {
-      background: #222233;
+    .stat-card {
+      background: #0d0d14;
+      border: 1px solid #2a2a3a;
+      border-radius: 12px;
+      padding: 6px 12px;
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 9px;
+      color: #aaaaaa;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
+    .stat-value {
+      font-size: 15px;
+      font-weight: 900;
       color: #fff;
-      border: 1px solid #444;
+    }
+
+    /* Botões de Aposta (- / +) */
+    .btn-circle {
+      background: linear-gradient(180deg, #3a3a50, #1f1f2e);
+      color: #fff;
+      border: 1px solid #555;
       width: 32px;
       height: 32px;
       border-radius: 50%;
       font-weight: bold;
       font-size: 18px;
       cursor: pointer;
-    }
-
-    .btn-spin {
-      background: linear-gradient(180deg, #ffcc00 0%, #cc9900 100%);
-      color: #000;
-      border: none;
-      width: 65px;
-      height: 65px;
-      border-radius: 50%;
-      font-size: 26px;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 0 20px rgba(255, 204, 0, 0.4);
-      transition: transform 0.1s;
       display: flex;
       justify-content: center;
       align-items: center;
+      box-shadow: 0 3px 0 #111;
     }
 
-    .btn-spin:active {
-      transform: scale(0.92);
+    .btn-circle:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #111;
     }
 
-    .btn-spin:disabled {
-      background: #444;
-      color: #888;
-      box-shadow: none;
-      cursor: not-allowed;
-    }
-
-    .message-bar {
-      margin-bottom: 15px;
-      font-size: 15px;
+    /* Botão Principal de Spin Verde Neon */
+    .btn-spin-glow {
+      background: radial-gradient(circle, #55ff55 0%, #009900 70%, #004d00 100%);
+      border: 3px solid #aaffaa;
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 32px;
       font-weight: bold;
-      color: #ffcc00;
-      min-height: 22px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 0 20px rgba(0, 255, 0, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.8);
+      transition: transform 0.1s, box-shadow 0.1s;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+    }
+
+    .btn-spin-glow:active {
+      transform: scale(0.92);
+      box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
+    }
+
+    .btn-spin-glow:disabled {
+      background: #333;
+      border-color: #555;
+      box-shadow: none;
+      color: #777;
+      cursor: not-allowed;
     }
   </style>
 </head>
 <body>
 
-  <div class="slot-container">
-    <div class="message-bar" id="message">Clique no botão para girar!</div>
-
-    <!-- Matriz 3x3 -->
-    <div class="reels-grid">
-      <div class="reel-window"><div class="reel-strip" id="strip0"></div></div>
-      <div class="reel-window"><div class="reel-strip" id="strip1"></div></div>
-      <div class="reel-window"><div class="reel-strip" id="strip2"></div></div>
+  <div class="machine-wrapper">
+    
+    <!-- Topo: Logo & Jackpots -->
+    <div class="top-header">
+      <div class="logo-box">
+        👑 K9K
+        <span>SLOTS</span>
+      </div>
+      <div class="jackpot-header">
+        <div class="jackpot-card grand">
+          <div class="jackpot-title" style="color: #ff3333;">Grand</div>
+          <div class="jackpot-value">R$ 50.000</div>
+        </div>
+        <div class="jackpot-card major">
+          <div class="jackpot-title" style="color: #a833ff;">Major</div>
+          <div class="jackpot-value">R$ 10.000</div>
+        </div>
+        <div class="jackpot-card minor">
+          <div class="jackpot-title" style="color: #3385ff;">Minor</div>
+          <div class="jackpot-value">R$ 2.000</div>
+        </div>
+        <div class="jackpot-card mini">
+          <div class="jackpot-title" style="color: #33ff77;">Mini</div>
+          <div class="jackpot-value">R$ 500</div>
+        </div>
+      </div>
     </div>
 
-    <!-- Painel -->
+    <!-- Estrutura Dourada Principal -->
+    <div class="gold-frame">
+      <div class="line-tag left">LINHAS<br><b>3</b></div>
+      <div class="line-tag right">LINHAS<br><b>3</b></div>
+
+      <div class="inner-screen">
+        <!-- Matriz 3x3 -->
+        <div class="reels-grid">
+          <div class="reel-window"><div class="reel-strip" id="strip0"></div></div>
+          <div class="reel-window"><div class="reel-strip" id="strip1"></div></div>
+          <div class="reel-window"><div class="reel-strip" id="strip2"></div></div>
+        </div>
+
+        <!-- Mensagens -->
+        <div class="message-bar" id="message">Pressione GIRAR para jogar!</div>
+      </div>
+    </div>
+
+    <!-- Painel de Controle (Rodapé) -->
     <div class="control-panel">
-      <div class="stat-box">
+      <!-- Saldo -->
+      <div class="stat-card">
         <div class="stat-label">Saldo</div>
-        <div class="stat-value" id="balanceDisplay">R$ 100,00</div>
+        <div class="stat-value" id="balanceDisplay">R$ 1.250,00</div>
       </div>
 
-      <div class="bet-controls">
-        <button class="btn-bet" onclick="changeBet(-1)">-</button>
-        <div class="stat-box" style="text-align: center;">
+      <!-- Controles de Aposta -->
+      <div class="panel-group">
+        <button class="btn-circle" onclick="changeBet(-1)">-</button>
+        <div class="stat-card">
           <div class="stat-label">Aposta</div>
           <div class="stat-value" id="betDisplay">R$ 5,00</div>
         </div>
-        <button class="btn-bet" onclick="changeBet(1)">+</button>
+        <button class="btn-circle" onclick="changeBet(1)">+</button>
       </div>
 
-      <button class="btn-spin" id="spinBtn" onclick="spin()">↻</button>
+      <!-- Botão Spin Verde Neon -->
+      <button class="btn-spin-glow" id="spinBtn" onclick="spin()">↻</button>
     </div>
+
   </div>
 
   <script>
@@ -213,20 +372,23 @@
       { char: '🍒', name: 'Cereja', pay: 3 },
       { char: '🍇', name: 'Uva', pay: 3 },
       { char: '🍉', name: 'Melancia', pay: 4 },
-      { char: '🧧', name: 'Envelope Vermelho', pay: 5 },
+      { char: '🧧', name: 'Envelope', pay: 5 },
       { char: '🧨', name: 'Dinamite', pay: 8 },
       { char: '🔔', name: 'Sino', pay: 10 },
       { char: '💎', name: 'Diamante', pay: 15 },
       { char: '👑', name: 'WILD', pay: 25 }
     ];
 
-    let balance = 100.00;
+    let balance = 1250.00;
     let bet = 5.00;
     const betSteps = [1, 2, 5, 10, 20, 50];
     let betIndex = 2;
     let isSpinning = false;
 
-    // 3 Linhas de combinação para o quadro 3x3
+    // As 3 linhas de combinação para o quadro 3x3:
+    // 1ª Linha: ➡️ (Meio)
+    // 2ª Linha: ↘️ (Diagonal Descendente)
+    // 3ª Linha: ↗️ (Diagonal Ascendente)
     const paylines = [
       { name: "Linha do Meio ➡️", coords: [[0,1], [1,1], [2,1]] },
       { name: "Diagonal Descendente ↘️", coords: [[0,0], [1,1], [2,2]] },
@@ -306,12 +468,12 @@
         }
 
         strip.style.transition = 'none';
-        strip.style.transform = `translateY(-1980px)`; // Inicia no fundo da fita
+        strip.style.transform = `translateY(-1980px)`; // Desloca para o final da fita
 
-        strip.offsetHeight; // Força reflow
+        strip.offsetHeight; // Força re-renderização
 
-        // Duração de ~2.0 segundos para a rolagem longa
-        const duration = 2.0 + (col * 0.3);
+        // Duração de 2.0 segundos de rolagem suave com parada em cascata
+        const duration = 2.0 + (col * 0.35);
         strip.style.transition = `transform ${duration}s cubic-bezier(0.15, 0.85, 0.25, 1)`;
         strip.style.transform = 'translateY(0px)';
 
