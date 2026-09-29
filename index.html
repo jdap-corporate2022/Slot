@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>K9K Slots Premium - Smooth Roll</title>
+  <title>Jogo de Slots 3x3</title>
   <style>
     * {
       box-sizing: border-box;
@@ -26,63 +26,28 @@
       background: #14141f;
       border: 3px solid #d4af37;
       border-radius: 20px;
-      padding: 20px;
+      padding: 25px;
       width: 95%;
-      max-width: 900px;
+      max-width: 450px;
       box-shadow: 0 0 50px rgba(212, 175, 55, 0.2), inset 0 0 20px rgba(0,0,0,0.8);
       text-align: center;
-      position: relative;
     }
 
-    /* Topo: Jackpots */
-    .jackpot-header {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-
-    .jackpot-card {
-      background: rgba(0, 0, 0, 0.6);
-      border-radius: 8px;
-      padding: 8px;
-      border: 1px solid #d4af37;
-    }
-
-    .jackpot-card.grand { border-color: #ff3333; }
-    .jackpot-card.major { border-color: #a833ff; }
-    .jackpot-card.minor { border-color: #3385ff; }
-    .jackpot-card.mini { border-color: #33ff77; }
-
-    .jackpot-title {
-      font-size: 11px;
-      font-weight: bold;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .jackpot-value {
-      font-size: 14px;
-      font-weight: bold;
-      color: #ffcc00;
-    }
-
-    /* Grelha de Slots (5 colunas x 3 linhas) */
+    /* Grelha 3x3 com Rolagem Vertical */
     .reels-grid {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
       background: #000;
       padding: 15px;
       border-radius: 12px;
       border: 2px solid #333;
       box-shadow: inset 0 0 25px rgba(0,0,0,0.9);
-      margin-bottom: 15px;
-      position: relative;
+      margin-bottom: 20px;
     }
 
     .reel-window {
-      height: 290px; /* 3 símbolos de 90px + lacunas */
+      height: 280px; /* Exibe exatamente 3 células */
       background: #11111a;
       border-radius: 8px;
       border: 1px solid #222;
@@ -136,7 +101,6 @@
       border-radius: 12px;
       border: 1px solid #2a2a3a;
       gap: 15px;
-      flex-wrap: wrap;
     }
 
     .stat-box {
@@ -177,10 +141,10 @@
       background: linear-gradient(180deg, #ffcc00 0%, #cc9900 100%);
       color: #000;
       border: none;
-      width: 70px;
-      height: 70px;
+      width: 65px;
+      height: 65px;
       border-radius: 50%;
-      font-size: 28px;
+      font-size: 26px;
       font-weight: bold;
       cursor: pointer;
       box-shadow: 0 0 20px rgba(255, 204, 0, 0.4);
@@ -202,60 +166,37 @@
     }
 
     .message-bar {
-      margin-top: 10px;
-      font-size: 16px;
+      margin-bottom: 15px;
+      font-size: 15px;
       font-weight: bold;
       color: #ffcc00;
-      min-height: 24px;
+      min-height: 22px;
     }
   </style>
 </head>
 <body>
 
   <div class="slot-container">
-    <!-- Jackpots Superior -->
-    <div class="jackpot-header">
-      <div class="jackpot-card grand">
-        <div class="jackpot-title" style="color: #ff3333;">Grand</div>
-        <div class="jackpot-value">R$ 50.000,00</div>
-      </div>
-      <div class="jackpot-card major">
-        <div class="jackpot-title" style="color: #a833ff;">Major</div>
-        <div class="jackpot-value">R$ 10.000,00</div>
-      </div>
-      <div class="jackpot-card minor">
-        <div class="jackpot-title" style="color: #3385ff;">Minor</div>
-        <div class="jackpot-value">R$ 2.000,00</div>
-      </div>
-      <div class="jackpot-card mini">
-        <div class="jackpot-title" style="color: #33ff77;">Mini</div>
-        <div class="jackpot-value">R$ 500,00</div>
-      </div>
-    </div>
+    <div class="message-bar" id="message">Clique no botão para girar!</div>
 
-    <!-- Matriz 5x3 com Rolagem Vertical -->
+    <!-- Matriz 3x3 -->
     <div class="reels-grid">
       <div class="reel-window"><div class="reel-strip" id="strip0"></div></div>
       <div class="reel-window"><div class="reel-strip" id="strip1"></div></div>
       <div class="reel-window"><div class="reel-strip" id="strip2"></div></div>
-      <div class="reel-window"><div class="reel-strip" id="strip3"></div></div>
-      <div class="reel-window"><div class="reel-strip" id="strip4"></div></div>
     </div>
-
-    <!-- Mensagem -->
-    <div class="message-bar" id="message">Clique em Girar para jogar!</div>
 
     <!-- Painel -->
     <div class="control-panel">
       <div class="stat-box">
         <div class="stat-label">Saldo</div>
-        <div class="stat-value" id="balanceDisplay">R$ 1.250,00</div>
+        <div class="stat-value" id="balanceDisplay">R$ 100,00</div>
       </div>
 
       <div class="bet-controls">
         <button class="btn-bet" onclick="changeBet(-1)">-</button>
         <div class="stat-box" style="text-align: center;">
-          <div class="stat-label">Aposta Total</div>
+          <div class="stat-label">Aposta</div>
           <div class="stat-value" id="betDisplay">R$ 5,00</div>
         </div>
         <button class="btn-bet" onclick="changeBet(1)">+</button>
@@ -267,45 +208,40 @@
 
   <script>
     const SYMBOLS = [
-      { char: '🍒', name: 'Cereja', pay: 2 },
       { char: '🍋', name: 'Limão', pay: 2 },
-      { char: '🍊', name: 'Laranja', pay: 3 },
+      { char: '🍊', name: 'Laranja', pay: 2 },
+      { char: '🍒', name: 'Cereja', pay: 3 },
       { char: '🍇', name: 'Uva', pay: 3 },
       { char: '🍉', name: 'Melancia', pay: 4 },
-      { char: '🔔', name: 'Sino', pay: 5 },
-      { char: '🏷️', name: 'BAR', pay: 8 },
-      { char: '💎', name: 'Diamante', pay: 10 },
-      { char: '7️⃣', name: 'Sete', pay: 15 },
+      { char: '🧧', name: 'Envelope Vermelho', pay: 5 },
+      { char: '🧨', name: 'Dinamite', pay: 8 },
+      { char: '🔔', name: 'Sino', pay: 10 },
+      { char: '💎', name: 'Diamante', pay: 15 },
       { char: '👑', name: 'WILD', pay: 25 }
     ];
 
-    let balance = 1250.00;
+    let balance = 100.00;
     let bet = 5.00;
     const betSteps = [1, 2, 5, 10, 20, 50];
     let betIndex = 2;
     let isSpinning = false;
 
-    // As 3 Linhas pedidas:
-    // Linha 1: ➡️ (Do meio)
-    // Linha 2: ↘️ (Diagonal topo -> base)
-    // Linha 3: ↗️ (Diagonal base -> topo)
+    // 3 Linhas de combinação para o quadro 3x3
     const paylines = [
-      { name: "Linha do Meio ➡️", coords: [[0,1], [1,1], [2,1], [3,1], [4,1]] },
-      { name: "Diagonal Descendente ↘️", coords: [[0,0], [1,1], [2,2], [3,2], [4,2]] },
-      { name: "Diagonal Ascendente ↗️", coords: [[0,2], [1,1], [2,0], [3,0], [4,0]] }
+      { name: "Linha do Meio ➡️", coords: [[0,1], [1,1], [2,1]] },
+      { name: "Diagonal Descendente ↘️", coords: [[0,0], [1,1], [2,2]] },
+      { name: "Diagonal Ascendente ↗️", coords: [[0,2], [1,1], [2,0]] }
     ];
 
     function getRandomSymbol() {
       return SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
     }
 
-    // Inicializa a roleta com uma fita bem longa de símbolos para rolagem
     function initReels() {
-      for (let col = 0; col < 5; col++) {
+      for (let col = 0; col < 3; col++) {
         const strip = document.getElementById(`strip${col}`);
         strip.innerHTML = '';
-        // Geramos 20 símbolos em cada fita para permitir o efeito de descida rápida
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 25; i++) {
           const cell = document.createElement('div');
           cell.className = 'slot-cell';
           cell.textContent = getRandomSymbol().char;
@@ -349,44 +285,39 @@
       document.getElementById('spinBtn').disabled = true;
       document.getElementById('message').textContent = "Girando...";
 
-      const finalMatrix = [[], [], [], [], []];
+      const finalMatrix = [[], [], []];
       let finishedCols = 0;
 
-      for (let col = 0; col < 5; col++) {
+      for (let col = 0; col < 3; col++) {
         const strip = document.getElementById(`strip${col}`);
         
-        // Símbolos finais para esta coluna
         const res0 = getRandomSymbol();
         const res1 = getRandomSymbol();
         const res2 = getRandomSymbol();
         finalMatrix[col] = [res0, res1, res2];
 
-        // Atualiza o TOPO da fita com os resultados finais
         const cells = strip.querySelectorAll('.slot-cell');
         cells[0].textContent = res0.char;
         cells[1].textContent = res1.char;
         cells[2].textContent = res2.char;
 
-        // Preenche o restante com símbolos aleatórios para o efeito visual de descida
-        for(let k = 3; k < cells.length; k++) {
+        for (let k = 3; k < cells.length; k++) {
           cells[k].textContent = getRandomSymbol().char;
         }
 
-        // Posiciona a fita no final (embaixo) sem transição
         strip.style.transition = 'none';
-        strip.style.transform = `translateY(-1530px)`; // (17 células * 90px)
+        strip.style.transform = `translateY(-1980px)`; // Inicia no fundo da fita
 
-        // Força renderização do navegador
-        strip.offsetHeight;
+        strip.offsetHeight; // Força reflow
 
-        // Aplica a animação de deslizar suavemente para CIMA -> BAIXO (posição 0)
-        const duration = 1.2 + (col * 0.3); // Delay em cascata para cada coluna
-        strip.style.transition = `transform ${duration}s cubic-bezier(0.1, 0.9, 0.2, 1.0)`;
+        // Duração de ~2.0 segundos para a rolagem longa
+        const duration = 2.0 + (col * 0.3);
+        strip.style.transition = `transform ${duration}s cubic-bezier(0.15, 0.85, 0.25, 1)`;
         strip.style.transform = 'translateY(0px)';
 
         setTimeout(() => {
           finishedCols++;
-          if (finishedCols === 5) {
+          if (finishedCols === 3) {
             checkWinnings(finalMatrix);
             isSpinning = false;
             document.getElementById('spinBtn').disabled = false;
@@ -400,39 +331,33 @@
       let winMessages = [];
 
       paylines.forEach((line) => {
-        const firstCoord = line.coords[0];
-        const firstSymbol = matrix[firstCoord[0]][firstCoord[1]];
-        let matchCount = 1;
-        let mainSymbol = firstSymbol;
+        const [c0, r0] = line.coords[0];
+        const [c1, r1] = line.coords[1];
+        const [c2, r2] = line.coords[2];
 
-        for (let i = 1; i < line.coords.length; i++) {
-          const coord = line.coords[i];
-          const currentSymbol = matrix[coord[0]][coord[1]];
+        const s0 = matrix[c0][r0];
+        const s1 = matrix[c1][r1];
+        const s2 = matrix[c2][r2];
 
-          if (mainSymbol.char === '👑' && currentSymbol.char !== '👑') {
-            mainSymbol = currentSymbol;
-          }
+        let mainSymbol = s0;
+        if (mainSymbol.char === '👑') mainSymbol = s1;
+        if (mainSymbol.char === '👑') mainSymbol = s2;
 
-          if (currentSymbol.char === mainSymbol.char || currentSymbol.char === '👑') {
-            matchCount++;
-          } else {
-            break;
-          }
-        }
+        const isMatch1 = (s0.char === mainSymbol.char || s0.char === '👑');
+        const isMatch2 = (s1.char === mainSymbol.char || s1.char === '👑');
+        const isMatch3 = (s2.char === mainSymbol.char || s2.char === '👑');
 
-        if (matchCount >= 3) {
-          const winAmount = (bet / 3) * (mainSymbol.pay * (matchCount - 2));
+        if (isMatch1 && isMatch2 && isMatch3) {
+          const winAmount = bet * mainSymbol.pay;
           totalWin += winAmount;
 
-          // Destaca as células vencedoras da linha
-          for (let i = 0; i < matchCount; i++) {
-            const [c, r] = line.coords[i];
+          line.coords.forEach(([c, r]) => {
             const strip = document.getElementById(`strip${c}`);
             const cell = strip.querySelectorAll('.slot-cell')[r];
             cell.classList.add('win-highlight');
-          }
+          });
 
-          winMessages.push(`${line.name}`);
+          winMessages.push(line.name);
         }
       });
 
@@ -440,7 +365,7 @@
         balance += totalWin;
         document.getElementById('message').textContent = `GANHOU R$ ${totalWin.toFixed(2)}! [${winMessages.join(' | ')}]`;
       } else {
-        document.getElementById('message').textContent = "Sem combinações nas 3 linhas. Tente de novo!";
+        document.getElementById('message').textContent = "Sem combinações desta vez. Tente novamente!";
       }
 
       updateDisplay();
