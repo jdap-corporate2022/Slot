@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>K9K Slots 3x3 Premium</title>
+  <title>K9K Slots Premium - 5 Linhas de Aposta</title>
   <style>
     * {
       box-sizing: border-box;
@@ -112,7 +112,7 @@
       position: relative;
     }
 
-    /* Indicador de Linhas na Moldura Lateral */
+    /* Indicador de Linhas de Aposta Fixas (5 LINHAS) */
     .line-tag {
       position: absolute;
       top: 50%;
@@ -139,7 +139,7 @@
     }
 
     .reel-window {
-      height: 280px; /* Mostra 3 células */
+      height: 280px; /* 3 Células visíveis */
       background: radial-gradient(circle, #1a1a24 0%, #08080c 100%);
       border-radius: 8px;
       border: 1px solid #333;
@@ -185,7 +185,7 @@
       100% { transform: scale(1.04); box-shadow: 0 0 25px #ffcc00; }
     }
 
-    /* Mensagem no topo da tela */
+    /* Mensagem de Resultado */
     .message-bar {
       text-align: center;
       margin-top: 10px;
@@ -260,7 +260,7 @@
       box-shadow: 0 1px 0 #111;
     }
 
-    /* Botão Principal de Spin Verde Neon */
+    /* Botão Principal Verde Neon */
     .btn-spin-glow {
       background: radial-gradient(circle, #55ff55 0%, #009900 70%, #004d00 100%);
       border: 3px solid #aaffaa;
@@ -300,7 +300,7 @@
     <!-- Topo: Logo & Jackpots -->
     <div class="top-header">
       <div class="logo-box">
-        👑 K9K
+        🐯 FORTUNE
         <span>SLOTS</span>
       </div>
       <div class="jackpot-header">
@@ -323,10 +323,10 @@
       </div>
     </div>
 
-    <!-- Estrutura Dourada Principal -->
+    <!-- Moldura Dourada Principal -->
     <div class="gold-frame">
-      <div class="line-tag left">LINHAS<br><b>3</b></div>
-      <div class="line-tag right">LINHAS<br><b>3</b></div>
+      <div class="line-tag left">LINHAS<br><b>5</b></div>
+      <div class="line-tag right">LINHAS<br><b>5</b></div>
 
       <div class="inner-screen">
         <!-- Matriz 3x3 -->
@@ -336,7 +336,7 @@
           <div class="reel-window"><div class="reel-strip" id="strip2"></div></div>
         </div>
 
-        <!-- Mensagens -->
+        <!-- Mensagem -->
         <div class="message-bar" id="message">Pressione GIRAR para jogar!</div>
       </div>
     </div>
@@ -366,17 +366,15 @@
   </div>
 
   <script>
+    // Tabela de Pagamentos atualizada com base na imagem do jogo (Tigre da Sorte)
     const SYMBOLS = [
-      { char: '🍋', name: 'Limão', pay: 2 },
-      { char: '🍊', name: 'Laranja', pay: 2 },
-      { char: '🍒', name: 'Cereja', pay: 3 },
-      { char: '🍇', name: 'Uva', pay: 3 },
-      { char: '🍉', name: 'Melancia', pay: 4 },
-      { char: '🧧', name: 'Envelope', pay: 5 },
-      { char: '🧨', name: 'Dinamite', pay: 8 },
-      { char: '🔔', name: 'Sino', pay: 10 },
-      { char: '💎', name: 'Diamante', pay: 15 },
-      { char: '👑', name: 'WILD', pay: 25 }
+      { char: '🍊', name: 'Laranja', pay: 3 },
+      { char: '🧨', name: 'Dinamite', pay: 5 },
+      { char: '🧧', name: 'Envelope Red', pay: 8 },
+      { char: '💰', name: 'Saco de Moedas', pay: 10 },
+      { char: '🐉', name: 'Aulete/Talismã', pay: 25 },
+      { char: '🪙', name: 'Lingote de Ouro', pay: 100 },
+      { char: '🐯', name: 'WILD (Tigre)', pay: 250 }
     ];
 
     let balance = 1250.00;
@@ -385,14 +383,22 @@
     let betIndex = 2;
     let isSpinning = false;
 
-    // As 3 linhas de combinação para o quadro 3x3:
-    // 1ª Linha: ➡️ (Meio)
-    // 2ª Linha: ↘️ (Diagonal Descendente)
-    // 3ª Linha: ↗️ (Diagonal Ascendente)
+    /* 
+      ======================================================
+      CONFIGURAÇÃO DAS 5 LINHAS DE GANHO FIXAS (3x3):
+      ======================================================
+      1ª Linha: Horizontal do Meio ➡️ (Linha 1)
+      2ª Linha: Horizontal de Cima ➡️ (Linha 0)
+      3ª Linha: Horizontal de Baixo ➡️ (Linha 2)
+      4ª Linha: Diagonal Descendente ↘️
+      5ª Linha: Diagonal Ascendente ↗️
+    */
     const paylines = [
-      { name: "Linha do Meio ➡️", coords: [[0,1], [1,1], [2,1]] },
-      { name: "Diagonal Descendente ↘️", coords: [[0,0], [1,1], [2,2]] },
-      { name: "Diagonal Ascendente ↗️", coords: [[0,2], [1,1], [2,0]] }
+      { id: 1, name: "1ª Linha ➡️ (Meio)", coords: [[0,1], [1,1], [2,1]] },
+      { id: 2, name: "2ª Linha ➡️ (Acima)", coords: [[0,0], [1,0], [2,0]] },
+      { id: 3, name: "3ª Linha ➡️ (Abaixo)", coords: [[0,2], [1,2], [2,2]] },
+      { id: 4, name: "4ª Linha ↘️ (Diagonal)", coords: [[0,0], [1,1], [2,2]] },
+      { id: 5, name: "5ª Linha ↗️ (Diagonal)", coords: [[0,2], [1,1], [2,0]] }
     ];
 
     function getRandomSymbol() {
@@ -468,11 +474,10 @@
         }
 
         strip.style.transition = 'none';
-        strip.style.transform = `translateY(-1980px)`; // Desloca para o final da fita
+        strip.style.transform = `translateY(-1980px)`;
 
-        strip.offsetHeight; // Força re-renderização
+        strip.offsetHeight; // Força renderização
 
-        // Duração de 2.0 segundos de rolagem suave com parada em cascata
         const duration = 2.0 + (col * 0.35);
         strip.style.transition = `transform ${duration}s cubic-bezier(0.15, 0.85, 0.25, 1)`;
         strip.style.transform = 'translateY(0px)';
@@ -490,7 +495,8 @@
 
     function checkWinnings(matrix) {
       let totalWin = 0;
-      let winMessages = [];
+      let winningLinesCount = 0;
+      let winningCellsSet = new Set();
 
       paylines.forEach((line) => {
         const [c0, r0] = line.coords[0];
@@ -501,33 +507,44 @@
         const s1 = matrix[c1][r1];
         const s2 = matrix[c2][r2];
 
+        // Regra do Wild
         let mainSymbol = s0;
-        if (mainSymbol.char === '👑') mainSymbol = s1;
-        if (mainSymbol.char === '👑') mainSymbol = s2;
+        if (mainSymbol.char === '🐯') mainSymbol = s1;
+        if (mainSymbol.char === '🐯') mainSymbol = s2;
 
-        const isMatch1 = (s0.char === mainSymbol.char || s0.char === '👑');
-        const isMatch2 = (s1.char === mainSymbol.char || s1.char === '👑');
-        const isMatch3 = (s2.char === mainSymbol.char || s2.char === '👑');
+        const isMatch1 = (s0.char === mainSymbol.char || s0.char === '🐯');
+        const isMatch2 = (s1.char === mainSymbol.char || s1.char === '🐯');
+        const isMatch3 = (s2.char === mainSymbol.char || s2.char === '🐯');
 
         if (isMatch1 && isMatch2 && isMatch3) {
-          const winAmount = bet * mainSymbol.pay;
-          totalWin += winAmount;
+          const lineWin = bet * mainSymbol.pay;
+          totalWin += lineWin;
+          winningLinesCount++;
 
           line.coords.forEach(([c, r]) => {
+            winningCellsSet.add(`${c},${r}`);
             const strip = document.getElementById(`strip${c}`);
             const cell = strip.querySelectorAll('.slot-cell')[r];
             cell.classList.add('win-highlight');
           });
-
-          winMessages.push(line.name);
         }
       });
 
+      // Regra de Multiplicador x10: Quando TODOS os 9 espaços da tela estiverem em ganhos
+      let isFullBoardWin = (winningCellsSet.size === 9);
+      if (isFullBoardWin) {
+        totalWin = totalWin * 10;
+      }
+
       if (totalWin > 0) {
         balance += totalWin;
-        document.getElementById('message').textContent = `GANHOU R$ ${totalWin.toFixed(2)}! [${winMessages.join(' | ')}]`;
+        if (isFullBoardWin) {
+          document.getElementById('message').textContent = `🔥 TELA CHEIA! MULTIPLICADOR x10! GANHOU R$ ${totalWin.toFixed(2)}! 🔥`;
+        } else {
+          document.getElementById('message').textContent = `GANHOU R$ ${totalWin.toFixed(2)}! (${winningLinesCount} linha(s) premiada(s))`;
+        }
       } else {
-        document.getElementById('message').textContent = "Sem combinações desta vez. Tente novamente!";
+        document.getElementById('message').textContent = "Sem combinações. Tente novamente!";
       }
 
       updateDisplay();
